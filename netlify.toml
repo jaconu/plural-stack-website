@@ -1,0 +1,15 @@
+# Netlify configuration — deliberately minimal.
+# Rule for this repo: nothing Netlify-proprietary beyond headers and
+# publish dir, so migrating to another host (Hetzner, Codeberg Pages,
+# DO App Platform) is a DNS change plus reproducing these headers.
+
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
