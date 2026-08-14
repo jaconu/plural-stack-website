@@ -1,7 +1,8 @@
 const path = require('path');
 const fse = require('fs-extra');
 const { createClient } = require('@sanity/client');
-const Configstore = require('configstore');
+// configstore@7 is ESM-only; require() yields the module namespace, so unwrap the default export.
+const Configstore = require('configstore').default ?? require('configstore');
 
 const config = new Configstore('sanity', {}, { globalConfigPath: true });
 const token = process.env.SANITY_TOKEN || config.get('authToken');
