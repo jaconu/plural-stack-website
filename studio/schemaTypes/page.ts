@@ -46,6 +46,8 @@ export default defineType({
       of: [
         {type: 'cardsSection'},
         {type: 'ctaSection'},
+        {type: 'domainSection'},
+        {type: 'formSection'},
         {type: 'heroSection'},
         {type: 'logosSection'},
         {type: 'testimonialsSection'},

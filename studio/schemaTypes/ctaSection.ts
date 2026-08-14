@@ -10,6 +10,13 @@ export default defineType({
   groups: SECTION_BASE_GROUPS,
   fields: [
     defineField({
+      name: 'eyebrow',
+      title: 'Eyebrow',
+      description: 'Small label shown above the heading. For example "Part 1 — Why Now".',
+      type: 'string',
+      group: 'content',
+    }),
+    defineField({
       name: 'heading',
       title: 'Heading',
       type: 'string',

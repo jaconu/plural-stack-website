@@ -1,16 +1,60 @@
 ---
 import { marked } from 'marked';
 import { type Footer } from 'types';
+import Action from '@components/Action.astro';
 
 interface Props extends Footer {}
 
-const { text } = Astro.props;
+const { navLinks, newsletter, socialLinks, text } = Astro.props;
+
+const hasNewsletter = Boolean(newsletter?.heading || newsletter?.body);
+const hasContent = Boolean(navLinks?.length || hasNewsletter || socialLinks?.length || text);
 ---
 
 {
-    text && (
+    hasContent && (
         <footer class="px-4 py-16 sm:px-5 sm:py-24">
-            <div class="mx-auto text-center max-w-7xl" set:html={marked.parse(text)} />
+            <div class="mx-auto max-w-7xl">
+                {
+                    hasNewsletter && (
+                        <div class="max-w-prose mx-auto text-center">
+                            {newsletter?.heading && <h2 class="text-xl font-black sm:text-2xl text-balance">{newsletter.heading}</h2>}
+                            {newsletter?.body && (
+                                <div class:list={[newsletter.heading && 'mt-3', 'markdown']} set:html={marked.parse(newsletter.body)} />
+                            )}
+                        </div>
+                    )
+                }
+                {
+                    navLinks && navLinks.length > 0 && (
+                        <ul class:list={[hasNewsletter && 'mt-12', 'flex flex-wrap items-center justify-center gap-x-6 gap-y-3']}>
+                            {navLinks.map((item) => (
+                                <li>
+                                    <Action action={item} class:list={[item._type === 'actionLink' && 'no-underline hover:underline']} />
+                                </li>
+                            ))}
+                        </ul>
+                    )
+                }
+                {
+                    socialLinks && socialLinks.length > 0 && (
+                        <ul class:list={[(hasNewsletter || navLinks?.length) && 'mt-6', 'flex flex-wrap items-center justify-center gap-x-6 gap-y-3']}>
+                            {socialLinks.map((item) => (
+                                <li>
+                                    <Action action={item} class="no-underline hover:underline" />
+                                </li>
+                            ))}
+                        </ul>
+                    )
+                }
+                {
+                    text && (
+                        <p class:list={[(hasNewsletter || navLinks?.length || socialLinks?.length) && 'mt-12', 'text-center text-sm opacity-60']}>
+                            {text}
+                        </p>
+                    )
+                }
+            </div>
         </footer>
     )
 }

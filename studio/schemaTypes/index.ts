@@ -7,7 +7,10 @@ import cardsSection from './cardsSection'
 import company from './company'
 import ctaSection from './ctaSection'
 import customImage from './customImage'
+import domainSection from './domainSection'
 import footer from './footer'
+import formField from './formField'
+import formSection from './formSection'
 import header from './header'
 import heroSection from './heroSection'
 import logosSection from './logosSection'
@@ -27,7 +30,10 @@ export const schemaTypes = [
   company,
   ctaSection,
   customImage,
+  domainSection,
   footer,
+  formField,
+  formSection,
   header,
   heroSection,
   logosSection,

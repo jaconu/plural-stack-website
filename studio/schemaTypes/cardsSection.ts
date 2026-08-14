@@ -10,6 +10,13 @@ export default defineType({
   groups: SECTION_BASE_GROUPS,
   fields: [
     defineField({
+      name: 'eyebrow',
+      title: 'Eyebrow',
+      description: 'Small label shown above the heading. For example "Part 1 — Why Now".',
+      type: 'string',
+      group: 'content',
+    }),
+    defineField({
       name: 'heading',
       title: 'Heading',
       type: 'string',
@@ -26,6 +33,20 @@ export default defineType({
       title: 'Items',
       type: 'array',
       of: [{type: 'card'}],
+      group: 'content',
+    }),
+    defineField({
+      name: 'outro',
+      title: 'Outro',
+      description: 'Closing copy shown below the items.',
+      type: 'markdown',
+      group: 'content',
+    }),
+    defineField({
+      name: 'cta',
+      title: 'Call-to-action',
+      type: 'array',
+      of: [{type: 'actionButton'}, {type: 'actionLink'}],
       group: 'content',
     }),
     ...SECTION_BASE_FIELDS,

@@ -16,6 +16,13 @@ export default defineType({
       group: 'content',
     }),
     defineField({
+      name: 'subheading',
+      title: 'Subheading',
+      description: 'Subtitle shown directly below the heading.',
+      type: 'string',
+      group: 'content',
+    }),
+    defineField({
       name: 'body',
       title: 'Body',
       type: 'markdown',
@@ -26,6 +33,13 @@ export default defineType({
       title: 'Call-to-action',
       type: 'array',
       of: [{type: 'actionButton'}, {type: 'actionLink'}],
+      group: 'content',
+    }),
+    defineField({
+      name: 'outro',
+      title: 'Outro',
+      description: 'Small print shown below the call-to-action.',
+      type: 'markdown',
       group: 'content',
     }),
     ...SECTION_BASE_FIELDS,

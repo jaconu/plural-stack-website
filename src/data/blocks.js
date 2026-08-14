@@ -25,6 +25,14 @@ export const SECTIONS = `{
   _type == "logosSection" => {
     items[] ${IMAGE}
   },
+  _type == "domainSection" => {
+    domainLead-> {
+        _type,
+        _id,
+        name,
+        title
+    }
+  },
   _type == "testimonialsSection" => {
     items[] {
         ...,

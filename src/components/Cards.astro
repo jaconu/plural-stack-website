@@ -1,18 +1,20 @@
 ---
 import { marked } from 'marked';
 import { type CardsSection } from 'types';
+import Action from '@components/Action.astro';
 import Card from '@components/Card.astro';
 import Section from '@components/Section.astro';
 
 interface Props extends CardsSection {}
 
-const { heading, body, items, columns, ...rest } = Astro.props;
+const { eyebrow, heading, body, items, columns, outro, cta, ...rest } = Astro.props;
 ---
 
 <Section {...rest} class="text-center">
+    {eyebrow && <p class="text-sm font-bold tracking-widest uppercase opacity-60">{eyebrow}</p>}
     {
         heading && (
-            <h2 class="text-2xl font-black sm:text-4xl text-balance">
+            <h2 class:list={[eyebrow && 'mt-3', 'text-2xl font-black sm:text-4xl text-balance']}>
                 {heading}
             </h2>
         )
@@ -29,6 +31,16 @@ const { heading, body, items, columns, ...rest } = Astro.props;
             >
                 {items?.map((item) => (
                     <Card {...item} class="flex-1" />
+                ))}
+            </div>
+        )
+    }
+    {outro && <div class="mx-auto mt-8 max-w-prose markdown" set:html={marked.parse(outro)} />}
+    {
+        cta && cta.length > 0 && (
+            <div class="flex flex-wrap items-center justify-center gap-4 mt-8">
+                {cta.map((item) => (
+                    <Action action={item} />
                 ))}
             </div>
         )

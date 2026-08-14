@@ -33,10 +33,13 @@ export interface Card {
 }
 
 export interface CardsSection extends Section {
+    eyebrow?: string;
     heading?: string;
     body?: string;
     items?: Array<Card>;
     columns?: 'one' | 'two' | 'three';
+    outro?: string;
+    cta?: Array<ActionButton | ActionLink>;
 }
 
 export interface Company {
@@ -53,13 +56,48 @@ export interface CustomImage {
 }
 
 export interface CtaSection extends Section {
+    eyebrow?: string;
     heading?: string;
     body?: string;
     cta?: Array<ActionButton | ActionLink>;
 }
 
+export interface DomainSection extends Section {
+    heading?: string;
+    eyebrow?: string;
+    body?: string;
+    examples?: Array<string>;
+    projects?: Array<ActionLink>;
+    domainLead?: Person;
+}
+
 export interface Footer {
+    navLinks?: Array<ActionButton | ActionLink>;
+    newsletter?: Newsletter;
+    socialLinks?: Array<ActionLink>;
     text?: string;
+}
+
+export interface FormField {
+    label: string;
+    name: string;
+    type: 'text' | 'email' | 'textarea' | 'select' | 'checkbox';
+    options?: Array<string>;
+    isRequired?: boolean;
+}
+
+export interface FormSection extends Section {
+    heading?: string;
+    body?: string;
+    fields?: Array<FormField>;
+    submitLabel?: string;
+    isConnected?: boolean;
+    notConnectedNotice?: string;
+}
+
+export interface Newsletter {
+    heading?: string;
+    body?: string;
 }
 
 export interface Header {
@@ -70,8 +108,10 @@ export interface Header {
 
 export interface HeroSection extends Section {
     heading?: string;
+    subheading?: string;
     body?: string;
     cta?: Array<ActionButton | ActionLink>;
+    outro?: string;
 }
 
 export interface LogosSection extends Section {
@@ -85,7 +125,7 @@ export interface Page {
     _id: string;
     slug: Slug;
     title: string;
-    sections: Array<CardsSection | CtaSection | HeroSection | LogosSection | TestimonialsSection>;
+    sections: Array<CardsSection | CtaSection | DomainSection | FormSection | HeroSection | LogosSection | TestimonialsSection>;
     metaTitle?: string;
     addTitleSuffix?: boolean;
     metaDescription?: string;

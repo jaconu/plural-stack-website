@@ -6,7 +6,7 @@ import Section from '@components/Section.astro';
 
 interface Props extends HeroSection {}
 
-const { heading, body, cta, ...rest } = Astro.props;
+const { heading, subheading, body, cta, outro, ...rest } = Astro.props;
 ---
 
 <Section {...rest} class="text-center">
@@ -17,7 +17,14 @@ const { heading, body, cta, ...rest } = Astro.props;
             </h1>
         )
     }
-    {body && <div class:list={['mx-auto', heading && 'mt-6', 'max-w-prose markdown']} set:html={marked.parse(body)} />}
+    {
+        subheading && (
+            <h2 class:list={[heading && 'mt-4', 'text-xl font-bold sm:text-3xl text-balance opacity-80']}>
+                {subheading}
+            </h2>
+        )
+    }
+    {body && <div class:list={['mx-auto', (heading || subheading) && 'mt-6', 'max-w-prose markdown']} set:html={marked.parse(body)} />}
     {
         cta && cta.length > 0 && (
             <div class:list={[(heading || body) && 'mt-8', 'flex flex-wrap items-center justify-center gap-4']}>
@@ -30,4 +37,5 @@ const { heading, body, cta, ...rest } = Astro.props;
             </div>
         )
     }
+    {outro && <div class="mx-auto mt-6 text-sm opacity-70 max-w-prose markdown" set:html={marked.parse(outro)} />}
 </Section>
