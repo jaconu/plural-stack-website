@@ -1,6 +1,93 @@
 @import 'tailwindcss';
 @plugin "daisyui";
 
+/*
+ * Every component that renders a markdown field wraps the output in `.markdown`.
+ * Tailwind's preflight strips heading sizes and list markers, so without these rules
+ * multi-block markdown collapses into undifferentiated text. Sizing is in `em` and
+ * colour comes from `currentColor`, so this works inside any section theme and in
+ * both centred and left-aligned contexts.
+ */
+.markdown > *:first-child {
+    margin-top: 0;
+}
+
+.markdown > *:last-child {
+    margin-bottom: 0;
+}
+
+.markdown p,
+.markdown ul,
+.markdown ol,
+.markdown blockquote,
+.markdown table {
+    margin-block: 0.75em;
+}
+
+.markdown h2,
+.markdown h3,
+.markdown h4 {
+    font-weight: 800;
+    line-height: 1.25;
+    margin-block: 1.5em 0.5em;
+    text-wrap: balance;
+}
+
+.markdown h2 {
+    font-size: 1.5em;
+}
+
+.markdown h3 {
+    font-size: 1.25em;
+}
+
+.markdown h4 {
+    font-size: 1.0625em;
+}
+
+.markdown ul {
+    list-style: disc;
+    padding-inline-start: 1.25em;
+}
+
+.markdown ol {
+    list-style: decimal;
+    padding-inline-start: 1.25em;
+}
+
+.markdown li {
+    margin-block: 0.25em;
+}
+
+.markdown li::marker {
+    opacity: 0.5;
+}
+
+.markdown a {
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.markdown a:hover {
+    text-decoration: none;
+}
+
+.markdown strong {
+    font-weight: 700;
+}
+
+/* No left border: the quote has to sit correctly in centred sections too. */
+.markdown blockquote {
+    font-size: 1.125em;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+.markdown hr {
+    margin-block: 2em;
+    opacity: 0.2;
+}
+
 @plugin "daisyui/theme" {
     name: 'dark';
     --color-primary: #ffae9c;
