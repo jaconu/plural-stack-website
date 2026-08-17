@@ -6,6 +6,8 @@
  *
  *   set -a; . ./.env; set +a; node ./sanity-export/seed-content.js
  */
+const fs = require('fs');
+const path = require('path');
 const {createClient} = require('@sanity/client');
 
 const projectId = process.env.SANITY_PROJECT_ID;
@@ -742,6 +744,29 @@ const FOOTER_LINKS = keyed([
 // no-op, so this stays safe to re-run.
 const RETIRED_IDS = ['page-who-we-are'];
 
+const LOGO_FILENAME = 'plural-stack-logo.png';
+const LOGO_PATH = path.join(__dirname, 'assets', LOGO_FILENAME);
+
+/**
+ * Upload the logo once and reuse it on re-runs. Sanity assigns asset IDs on upload,
+ * so we look the asset up by original filename rather than hardcoding an ID.
+ */
+async function ensureLogoAsset() {
+    const existing = await client.fetch(
+        '*[_type == "sanity.imageAsset" && originalFilename == $name] | order(_createdAt asc) [0]._id',
+        {name: LOGO_FILENAME}
+    );
+    if (existing) {
+        console.log('reusing logo asset', existing);
+        return existing;
+    }
+    const asset = await client.assets.upload('image', fs.createReadStream(LOGO_PATH), {
+        filename: LOGO_FILENAME
+    });
+    console.log('uploaded logo asset', asset._id);
+    return asset._id;
+}
+
 async function run() {
     const tx = client.transaction();
     pages.forEach((doc) => tx.createOrReplace(doc));
@@ -749,18 +774,27 @@ async function run() {
     await tx.commit();
     console.log(`wrote ${pages.length} pages, retired ${RETIRED_IDS.length}`);
 
+    const logoAssetId = await ensureLogoAsset();
+    const logo = {
+        _type: 'customImage',
+        image: {_type: 'image', asset: {_type: 'reference', _ref: logoAssetId}},
+        alt: 'The Plural Stack'
+    };
+
     await client
         .patch(SITE_CONFIG_ID)
         .set({
             'header.title': 'The Plural Stack',
+            'header.logo': logo,
             'header.navLinks': NAV_LINKS,
+            'footer.logo': logo,
             'footer.navLinks': FOOTER_LINKS,
             'footer.text': 'The Plural Stack — convened by RadicalxChange (RxC).',
+            favicon: {_type: 'image', asset: {_type: 'reference', _ref: logoAssetId}},
             titleSuffix: ' | The Plural Stack'
         })
-        // The stock template logo is not Plural Stack branding; clear it so the
-        // wordmark renders instead. Newsletter and social copy are still undrafted.
-        .unset(['header.logo', 'footer.newsletter', 'footer.socialLinks'])
+        // Newsletter and social copy are still undrafted.
+        .unset(['footer.newsletter', 'footer.socialLinks'])
         .commit();
     console.log('patched siteConfig');
 }

@@ -72,6 +72,7 @@ export interface DomainSection extends Section {
 }
 
 export interface Footer {
+    logo?: CustomImage;
     navLinks?: Array<ActionButton | ActionLink>;
     newsletter?: Newsletter;
     socialLinks?: Array<ActionLink>;

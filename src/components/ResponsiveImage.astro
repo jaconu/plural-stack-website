@@ -8,11 +8,12 @@ interface Props {
     height: number;
     alt?: string;
     class?: string;
+    loading?: 'eager' | 'lazy';
 }
 
-const { src, width, height, alt, class: className } = Astro.props;
+const { src, width, height, alt, class: className, loading } = Astro.props;
 
 const format = src?.includes('.svg') ? 'svg' : 'webp';
 ---
 
-<Image src={src} width={width} height={height} alt={alt || ''} format={format} class:list={className} />
+<Image src={src} width={width} height={height} alt={alt || ''} format={format} class:list={className} loading={loading ?? 'lazy'} />

@@ -2,13 +2,14 @@
 import { marked } from 'marked';
 import { type Footer } from 'types';
 import Action from '@components/Action.astro';
+import ResponsiveImage from '@components/ResponsiveImage.astro';
 
 interface Props extends Footer {}
 
-const { navLinks, newsletter, socialLinks, text } = Astro.props;
+const { logo, navLinks, newsletter, socialLinks, text } = Astro.props;
 
 const hasNewsletter = Boolean(newsletter?.heading || newsletter?.body);
-const hasContent = Boolean(navLinks?.length || hasNewsletter || socialLinks?.length || text);
+const hasContent = Boolean(logo?.src || navLinks?.length || hasNewsletter || socialLinks?.length || text);
 ---
 
 {
@@ -16,8 +17,15 @@ const hasContent = Boolean(navLinks?.length || hasNewsletter || socialLinks?.len
         <footer class="px-4 py-16 sm:px-5 sm:py-24">
             <div class="mx-auto max-w-7xl">
                 {
+                    logo?.src && (
+                        <a class="flex justify-center" href="/" aria-label="The Plural Stack, home">
+                            <ResponsiveImage _id={logo._id} src={logo.src} width={96} height={96} alt={logo.alt} class="w-10 h-10" />
+                        </a>
+                    )
+                }
+                {
                     hasNewsletter && (
-                        <div class="max-w-prose mx-auto text-center">
+                        <div class:list={[logo?.src && 'mt-10', 'max-w-prose mx-auto text-center']}>
                             {newsletter?.heading && <h2 class="text-xl font-black sm:text-2xl text-balance">{newsletter.heading}</h2>}
                             {newsletter?.body && (
                                 <div class:list={[newsletter.heading && 'mt-3', 'markdown']} set:html={marked.parse(newsletter.body)} />
@@ -27,7 +35,7 @@ const hasContent = Boolean(navLinks?.length || hasNewsletter || socialLinks?.len
                 }
                 {
                     navLinks && navLinks.length > 0 && (
-                        <ul class:list={[hasNewsletter && 'mt-12', 'flex flex-wrap items-center justify-center gap-x-6 gap-y-3']}>
+                        <ul class:list={[(hasNewsletter || logo?.src) && 'mt-10', 'flex flex-wrap items-center justify-center gap-x-6 gap-y-3']}>
                             {navLinks.map((item) => (
                                 <li>
                                     <Action action={item} class:list={[item._type === 'actionLink' && 'no-underline hover:underline']} />
@@ -38,7 +46,7 @@ const hasContent = Boolean(navLinks?.length || hasNewsletter || socialLinks?.len
                 }
                 {
                     socialLinks && socialLinks.length > 0 && (
-                        <ul class:list={[(hasNewsletter || navLinks?.length) && 'mt-6', 'flex flex-wrap items-center justify-center gap-x-6 gap-y-3']}>
+                        <ul class:list={[(hasNewsletter || navLinks?.length || logo?.src) && 'mt-6', 'flex flex-wrap items-center justify-center gap-x-6 gap-y-3']}>
                             {socialLinks.map((item) => (
                                 <li>
                                     <Action action={item} class="no-underline hover:underline" />
@@ -49,7 +57,7 @@ const hasContent = Boolean(navLinks?.length || hasNewsletter || socialLinks?.len
                 }
                 {
                     text && (
-                        <p class:list={[(hasNewsletter || navLinks?.length || socialLinks?.length) && 'mt-12', 'text-center text-sm opacity-60']}>
+                        <p class:list={[(hasNewsletter || navLinks?.length || socialLinks?.length || logo?.src) && 'mt-10', 'text-center text-sm opacity-60']}>
                             {text}
                         </p>
                     )

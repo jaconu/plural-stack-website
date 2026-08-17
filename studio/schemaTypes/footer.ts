@@ -15,6 +15,13 @@ export default defineType({
   ],
   fields: [
     defineField({
+      name: 'logo',
+      title: 'Logo',
+      description: 'Shown centred above the footer content. Leave empty to hide.',
+      type: 'customImage',
+      group: 'content',
+    }),
+    defineField({
       name: 'navLinks',
       title: 'Navigation links',
       type: 'array',

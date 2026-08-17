@@ -10,17 +10,16 @@ const { title, logo, navLinks } = Astro.props;
 
 <nav class="p-4 sm:p-5">
     <div class="flex items-center justify-between w-full gap-6 mx-auto max-w-7xl">
-        {
-            logo?.src ? (
-                <a class="flex items-center" href="/">
-                    <ResponsiveImage _id={logo._id} src={logo.src} width={logo.dimensions?.width} height={logo.dimensions?.height} alt={logo.alt} />
-                </a>
-            ) : (
-                <a class="text-xl font-bold sm:text-2xl" href="/">
-                    {title}
-                </a>
-            )
-        }
+        <a class="flex items-center gap-2.5 shrink-0" href="/">
+            {
+                logo?.src && (
+                    /* Explicit 64px source rather than the asset's own 1159px dimensions,
+                       so Astro emits a small file for a ~28px mark. */
+                    <ResponsiveImage _id={logo._id} src={logo.src} width={64} height={64} alt={logo.alt} class="w-7 h-7 sm:w-8 sm:h-8" loading="eager" />
+                )
+            }
+            {title && <span class="text-xl font-bold sm:text-2xl">{title}</span>}
+        </a>
         {
             navLinks && navLinks.length > 0 && (
                 <>
@@ -43,7 +42,7 @@ const { title, logo, navLinks } = Astro.props;
                         >
                             <span class="nav-toggle-icon" />
                         </button>
-                        <div id="nav-panel" class="nav-panel absolute rounded-box -top-2 -right-2 z-1 shadow-xl bg-base-100 border border-base-200/70">
+                        <div id="nav-panel" class="nav-panel absolute -top-2 -right-2 z-1 bg-base-100 border border-base-content">
                             <ul class="flex flex-col px-4 pb-6 pt-14">
                                 {navLinks.map((item) => (
                                     <li>
