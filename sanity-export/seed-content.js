@@ -32,18 +32,19 @@ const keyed = (items) => items.map((item) => ({_key: `k${++keySeq}`, ...item}));
 const button = (label, url, theme = 'primary') => ({_type: 'actionButton', label, url, theme});
 const link = (label, url) => ({_type: 'actionLink', label, url});
 
-const hero = ({heading, subheading, body, cta, outro, theme}) => ({
+const hero = ({heading, subheading, body, cta, outro, sketch, theme}) => ({
     _type: 'heroSection',
     heading,
     ...(subheading && {subheading}),
     ...(body && {body}),
     ...(cta && {cta: keyed(cta)}),
     ...(outro && {outro}),
+    ...(sketch && {sketch}),
     theme: theme || 'light',
     width: 'full'
 });
 
-const cards = ({eyebrow, heading, body, items, outro, cta, columns = 'three', theme}) => ({
+const cards = ({eyebrow, heading, body, items, outro, cta, columns = 'three', compactTiles, dividerAfter, theme}) => ({
     _type: 'cardsSection',
     ...(eyebrow && {eyebrow}),
     ...(heading && {heading}),
@@ -51,6 +52,8 @@ const cards = ({eyebrow, heading, body, items, outro, cta, columns = 'three', th
     ...(items && {items: keyed(items.map((i) => ({_type: 'card', hasBorder: true, textAlign: 'left', ...i})))}),
     ...(outro && {outro}),
     ...(cta && {cta: keyed(cta)}),
+    ...(compactTiles && {compactTiles}),
+    ...(dividerAfter && {dividerAfter}),
     columns,
     theme: theme || 'light',
     width: 'full'
@@ -89,12 +92,25 @@ const form = ({heading, body, fields, submitLabel}) => ({
     width: 'full'
 });
 
+// Second value is a one-liner (used on /our-pitch only).
 const ORGS = [
-    'RadicalxChange Foundation (RxC)',
-    'European Ethereum Institute (EEI)',
-    'Identity Valley (IDV)',
-    'European Decentralisation Institute (EDI)',
-    'Global Solutions Initiative (GSI)'
+    [
+        'RadicalxChange Foundation (RxC)',
+        'A think-and-do civic tech nonprofit working to keep human agency and democratic participation central to the digital sphere.'
+    ],
+    [
+        'European Ethereum Institute (EEI)',
+        "A nonprofit organisation working to shape crypto regulation and Ethereum's potential in Europe."
+    ],
+    ['Identity Valley (IDV)', 'A nonprofit research organisation ensuring ethical digital innovation and transformation.'],
+    [
+        'European Decentralisation Institute (EDI)',
+        "A nonprofit research organisation promoting decentralised technologies to address Europe's current digital infrastructure challenges."
+    ],
+    [
+        'Global Solutions Initiative (GSI)',
+        'An international nonprofit delivering research-based policy advice to the G20, G7, and related bodies in pursuit of a human-centred global economic system.'
+    ]
 ];
 
 const AUDIENCES = [
@@ -136,7 +152,9 @@ const pages = [
                     button('Our Pitch →', '/our-pitch/', 'primary'),
                     button('Get Involved →', '/get-involved/', 'secondary')
                 ],
-                outro: 'Prefer to go straight to the source? [Read the Paper →](/projects/plural-stack-paper/)'
+                outro: 'Prefer to go straight to the source? [Read the Paper →](/projects/plural-stack-paper/)',
+                sketch: 'squares',
+                theme: 'lemonade'
             }),
             cards({
                 heading: "Three cracks are already showing in Europe's digital foundations.",
@@ -563,8 +581,9 @@ const pages = [
             'The Plural Stack is the collaborative work of an interdisciplinary group drawn from across the Plurality community, convened and led by RadicalxChange.',
         sections: [
             hero({
-                heading: 'Plural by architecture, not by promise.',
-                body: "We think Europe's digital future shouldn't be decided by a handful of platforms. Four ideas anchor everything we build:"
+                heading: 'Plural by architecture,\nnot by promise.',
+                body: "We think Europe's digital future shouldn't be decided by a handful of platforms. Four ideas anchor everything we build:",
+                sketch: 'mark'
             }),
             cards({
                 columns: 'two',
@@ -595,7 +614,9 @@ const pages = [
             cards({
                 heading: "Who's behind this.",
                 columns: 'three',
-                items: ORGS.map((name) => ({heading: name, textAlign: 'center'}))
+                compactTiles: true,
+                dividerAfter: true,
+                items: ORGS.map(([name, blurb]) => ({heading: name, body: blurb, textAlign: 'center'}))
             })
         ]
     }),
@@ -637,6 +658,13 @@ const pages = [
                     }
                 ],
                 submitLabel: 'Get Involved →'
+            }),
+            cards({
+                heading: 'In good company.',
+                body: 'The Plural Stack paper, and the ecosystem around it, are made possible by:',
+                columns: 'three',
+                items: ORGS.map(([name]) => ({heading: name, textAlign: 'center'})),
+                cta: [link("See who's behind this →", '/our-pitch/')]
             })
         ]
     }),
@@ -710,13 +738,6 @@ const pages = [
             cta({
                 body: 'Prefer email? Reach us directly at **{functional mailbox address to be confirmed}**.',
                 theme: 'dark'
-            }),
-            cards({
-                heading: 'In good company.',
-                body: 'The Plural Stack paper, and the ecosystem around it, are made possible by:',
-                columns: 'three',
-                items: ORGS.map((name) => ({heading: name, textAlign: 'center'})),
-                cta: [link("See who's behind this →", '/our-pitch/')]
             })
         ]
     })
@@ -729,7 +750,7 @@ const NAV_LINKS = keyed([
     link('Projects', '/projects/'),
     link('Domains', '/domains/'),
     link('Contact Us', '/contact-us/'),
-    button('Get Involved →', '/get-involved/', 'primary')
+    button('Get Involved →', '/get-involved/', 'secondary')
 ]);
 
 const FOOTER_LINKS = keyed([

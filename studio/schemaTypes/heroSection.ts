@@ -12,7 +12,9 @@ export default defineType({
     defineField({
       name: 'heading',
       title: 'Heading',
-      type: 'string',
+      description: 'Press Enter for a manual line break where the heading should wrap.',
+      type: 'text',
+      rows: 2,
       group: 'content',
     }),
     defineField({
@@ -41,6 +43,20 @@ export default defineType({
       description: 'Small print shown below the call-to-action.',
       type: 'markdown',
       group: 'content',
+    }),
+    defineField({
+      name: 'sketch',
+      title: 'Grid sketch',
+      description:
+        'Renders an interactive p5 grid sketch as a full-bleed, transparent backdrop behind the text, with square size reacting to how close the mouse is to a CTA. Leave unset for no sketch.',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Squares', value: 'squares'},
+          {title: 'Mark', value: 'mark'},
+        ],
+      },
+      group: 'styles',
     }),
     ...SECTION_BASE_FIELDS,
   ],

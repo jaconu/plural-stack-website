@@ -27,7 +27,7 @@ export interface Card {
     body?: string;
     cta?: Array<ActionButton | ActionLink>;
     image?: CustomImage;
-    theme?: 'light' | 'dark' | 'transparent';
+    theme?: 'light' | 'dark' | 'transparent' | 'primary' | 'secondary';
     textAlign?: 'left' | 'center';
     hasBorder?: boolean;
 }
@@ -40,6 +40,10 @@ export interface CardsSection extends Section {
     columns?: 'one' | 'two' | 'three';
     outro?: string;
     cta?: Array<ActionButton | ActionLink>;
+    /** Renders every item's heading as an h4 reserving two lines of height, so cards with
+     * a one-line and a two-line heading still line up — for grids of many short, similarly
+     * shaped tiles (e.g. a row of organisation names) rather than general card content. */
+    compactTiles?: boolean;
 }
 
 export interface Company {
@@ -67,8 +71,6 @@ export interface DomainSection extends Section {
     eyebrow?: string;
     body?: string;
     examples?: Array<string>;
-    projects?: Array<ActionLink>;
-    domainLead?: Person;
 }
 
 export interface Footer {
@@ -113,6 +115,10 @@ export interface HeroSection extends Section {
     body?: string;
     cta?: Array<ActionButton | ActionLink>;
     outro?: string;
+    /** Which p5 grid sketch variant (if any) to render as a full-bleed, transparent backdrop
+     * behind the text — 'squares' is gridSketch.js, 'mark' is gridSketchMark.js. Square size
+     * reacts to mouse proximity to a CTA on the page (see ctaProximity.js). Unset renders none. */
+    sketch?: 'squares' | 'mark';
 }
 
 export interface LogosSection extends Section {
@@ -143,9 +149,13 @@ export interface Person {
 
 export interface Section {
     _type?: string;
-    theme?: 'light' | 'dark';
+    theme?: 'light' | 'dark' | 'lemonade' | 'cyberpunk';
     backgroundImage?: BackgroundImage;
     width?: 'full' | 'inset';
+    /** Adds the same hairline divider used between stacked sections, but along this
+     * section's own bottom edge — for a section that's the last one on the page, where
+     * there's no following <section> for the normal section+section divider to attach to. */
+    dividerAfter?: boolean;
 }
 
 export interface SiteConfig {

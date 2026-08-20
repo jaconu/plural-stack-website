@@ -9,7 +9,7 @@ interface Props extends TestimonialsSection {}
 const { heading, body, items, columns, ...rest } = Astro.props;
 ---
 
-<Section {...rest} class="text-center">
+<Section {...rest} class="text-left">
     {
         heading && (
             <h2 class="text-2xl font-black sm:text-4xl text-balance">
@@ -17,7 +17,7 @@ const { heading, body, items, columns, ...rest } = Astro.props;
             </h2>
         )
     }
-    {body && <div class:list={['mx-auto', heading && 'mt-4', 'max-w-prose markdown']} set:html={marked.parse(body)} />}
+    {body && <div class:list={[heading && 'mt-4', 'max-w-prose markdown']} set:html={marked.parse(body)} />}
     {
         items && items?.length > 0 && (
             <div

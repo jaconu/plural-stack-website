@@ -8,7 +8,7 @@ interface Props extends Header {}
 const { title, logo, navLinks } = Astro.props;
 ---
 
-<nav class="p-4 sm:p-5">
+<nav class="p-4 sm:p-5 nav-bar" data-theme="cyberpunk">
     <div class="flex items-center justify-between w-full gap-6 mx-auto max-w-7xl">
         <a class="flex items-center gap-2.5 shrink-0" href="/">
             {
@@ -65,6 +65,9 @@ const { title, logo, navLinks } = Astro.props;
 
 <style>
     @reference "../styles/globals.css";
+    .nav-bar {
+        border-bottom: 1px solid var(--color-base-300);
+    }
     .nav-panel {
         @apply max-w-72 opacity-0 scale-90 origin-top-right invisible;
         width: calc(100vw - 1rem);

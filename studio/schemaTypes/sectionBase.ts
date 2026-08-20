@@ -22,6 +22,8 @@ export const SECTION_BASE_FIELDS = [
       list: [
         {title: 'Light', value: 'light'},
         {title: 'Dark', value: 'dark'},
+        {title: 'Lemonade', value: 'lemonade'},
+        {title: 'Cyberpunk', value: 'cyberpunk'},
       ],
     },
     initialValue: 'light',
@@ -46,6 +48,15 @@ export const SECTION_BASE_FIELDS = [
       ],
     },
     initialValue: 'full',
+    group: 'styles',
+  }),
+  defineField({
+    name: 'dividerAfter',
+    title: 'Divider after',
+    description:
+      "Adds the same hairline divider used between stacked sections, but along this section's own bottom edge. For a section that's the last one on the page, where there's no following section for the normal divider to attach to.",
+    type: 'boolean',
+    initialValue: false,
     group: 'styles',
   }),
 ]

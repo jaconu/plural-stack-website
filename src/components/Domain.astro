@@ -1,24 +1,23 @@
 ---
 import { marked } from 'marked';
 import { type DomainSection } from 'types';
-import Action from '@components/Action.astro';
 import Section from '@components/Section.astro';
 
 interface Props extends DomainSection {}
 
-const { heading, eyebrow, body, examples, projects, domainLead, ...rest } = Astro.props;
+const { heading, eyebrow, body, examples, ...rest } = Astro.props;
 ---
 
 <Section {...rest}>
     <div class="max-w-4xl">
-        {eyebrow && <p class="text-sm font-bold tracking-widest uppercase opacity-60">{eyebrow}</p>}
         {
             heading && (
-                <h2 class:list={[eyebrow && 'mt-2', 'text-2xl font-black sm:text-4xl text-balance']}>
+                <h2 class="text-xl font-black sm:text-3xl text-balance">
                     {heading}
                 </h2>
             )
         }
+        {eyebrow && <p class:list={[heading && 'mt-2', 'text-sm font-bold tracking-widest uppercase opacity-60']}>{eyebrow}</p>}
         {body && <div class:list={[(heading || eyebrow) && 'mt-4', 'max-w-prose markdown']} set:html={marked.parse(body)} />}
         {
             examples && examples.length > 0 && (
@@ -32,34 +31,5 @@ const { heading, eyebrow, body, examples, projects, domainLead, ...rest } = Astr
                 </div>
             )
         }
-        <div class="mt-6">
-            <h3 class="text-xs font-bold tracking-widest uppercase opacity-60">Projects</h3>
-            {
-                projects && projects.length > 0 ? (
-                    <ul class="mt-3 space-y-2">
-                        {projects.map((project) => (
-                            <li>
-                                <Action action={project} />
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <p class="mt-3 opacity-60">No projects listed yet — check back soon.</p>
-                )
-            }
-        </div>
-        <div class="mt-6">
-            <h3 class="text-xs font-bold tracking-widest uppercase opacity-60">Domain lead</h3>
-            {
-                domainLead?.name ? (
-                    <p class="mt-3">
-                        {domainLead.name}
-                        {domainLead.title && <span class="opacity-60"> — {domainLead.title}</span>}
-                    </p>
-                ) : (
-                    <p class="mt-3 opacity-60">To be announced.</p>
-                )
-            }
-        </div>
     </div>
 </Section>

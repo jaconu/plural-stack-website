@@ -64,6 +64,15 @@ export default defineType({
       initialValue: 'three',
       group: 'styles',
     }),
+    defineField({
+      name: 'compactTiles',
+      title: 'Compact tiles',
+      description:
+        'Renders each item\'s heading as an h4 reserving two lines of height, so a one-line and a two-line heading still line up. For a grid of many short, similarly shaped tiles (e.g. a row of organisation names) rather than general card content.',
+      type: 'boolean',
+      initialValue: false,
+      group: 'styles',
+    }),
   ],
   preview: {
     select: {

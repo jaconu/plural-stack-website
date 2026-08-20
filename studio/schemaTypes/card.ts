@@ -57,6 +57,8 @@ export default defineType({
           {title: 'Light', value: 'light'},
           {title: 'Dark', value: 'dark'},
           {title: 'Transparent', value: 'transparent'},
+          {title: 'Primary Cards', value: 'primary'},
+          {title: 'Secondary Cards', value: 'secondary'},
         ],
       },
       group: 'styles',

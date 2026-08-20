@@ -22,6 +22,7 @@
         "dotenv": "^16.4.7",
         "fs-extra": "^11.2.0",
         "marked": "^15.0.4",
+        "p5": "^2.3.2",
         "tailwindcss": "^4.0.9"
     },
     "devDependencies": {
